@@ -1,5 +1,5 @@
 [package]
-name = "rust-std"
+name = "qsvg-gen"
 version = "0.1.0"
 edition = "2021"
 
