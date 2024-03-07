@@ -1,31 +1,42 @@
-use std::io::prelude::*;
-use std::net::TcpListener;
-use std::net::TcpStream;
+#[allow(unused_imports)]
+#[allow(dead_code)]
 
-fn handle_connection(mut stream: TcpStream) {
-    let mut buffer = [0; 1024];
-    stream.read(&mut buffer).unwrap();
+#[macro_use] extern crate rocket;
 
-    let request = String::from_utf8_lossy(&buffer[..]);
+use qirust::helper::generate_svg_string;
+use rocket::data::ByteUnit;
+use rocket::Data;
+use rocket::serde::json::Json;
+use std::collections::HashMap;
+use rocket::http::Method;
+use rocket_cors::{AllowedOrigins, CorsOptions};
 
-    let (status_line, filename) = if request.starts_with("GET / ") {
-        ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
-    } else {
-        ("HTTP/1.1 404 NOT FOUND\r\n\r\n", "404.html")
-    };
-
-    let response = format!("{}{}", status_line, filename);
-
-    stream.write(response.as_bytes()).unwrap();
-    stream.flush().unwrap();
+#[get("/svg?<data>")]
+async fn get_svg(data: String) -> Json<HashMap<String, String>> {
+    let svg_string = generate_svg_string(&data);
+    let mut map = HashMap::new();
+    map.insert("svg".to_string(), svg_string);
+    Json(map)
 }
 
-fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+#[post("/svg", data = "<content>")]
+async fn get_svg_post(content: Data<'_>) -> Json<HashMap<String, String>> {
+    let param_string: String = content.open(ByteUnit::default()).into_string().await.unwrap().to_string();
+    let svg_string = generate_svg_string(&param_string);
+    let mut map = HashMap::new();
+    map.insert("svg".to_string(), svg_string);
+    Json(map)
+}
 
-    for stream in listener.incoming() {
-        let stream = stream.unwrap();
+#[launch]
+fn rocket() -> _ {
+    let cors = CorsOptions::default()
+        .allowed_origins(AllowedOrigins::all())
+        .allowed_methods(vec![Method::Get, Method::Post].into_iter().map(From::from).collect())
+        .allow_credentials(true)
+        .to_cors().unwrap();
 
-        handle_connection(stream);
-    }
+    rocket::build()
+        .mount("/api", routes![get_svg, get_svg_post])
+        .attach(cors)
 }
