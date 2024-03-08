@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-qirust = "0.1.4"
+qirust = "0.1.5"
 rocket = { version = "0.5", features = ["json"] }
 rocket_cors = "0.6.0"
