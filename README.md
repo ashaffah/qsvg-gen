@@ -25,6 +25,45 @@ The request body should contain a string that will be used to generate the SVG s
 
 A JSON object with a single key-value pair, where the key is "svg" and the value is the generated SVG string.
 
+```javascript
+// Using Query Params
+const data = fetch("http://127.0.0.1:8000/api/svg?data=Hello World")
+  .then((response) => {
+    return response.text();
+  })
+  .then((res) => {
+    console.log(JSON.parse(res).svg);
+    document.body.innerHTML = JSON.parse(res).svg;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+```
+
+```javascript
+// Using Request Body
+const data = fetch("http://127.0.0.1:8000/api/svg", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+  body: {
+    content: "Hello World",
+  },
+})
+  .then((response) => {
+    return response.text();
+  })
+  .then((res) => {
+    console.log(JSON.parse(res).svg);
+    document.body.innerHTML = JSON.parse(res).svg;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+```
+
 ## CORS
 
 This API allows all origins for CORS (Cross-Origin Resource Sharing), which means that it can be accessed from any domain. It allows GET and POST methods and credentials.
