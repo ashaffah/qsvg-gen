@@ -29,11 +29,11 @@ A JSON object with a single key-value pair, where the key is "svg" and the value
 // Using Query Params
 const data = fetch("http://127.0.0.1:8000/api/svg?data=Hello World")
   .then((response) => {
-    return response.text();
+    return response.json();
   })
   .then((res) => {
-    console.log(JSON.parse(res).svg);
-    document.body.innerHTML = JSON.parse(res).svg;
+    console.log(res.svg);
+    document.body.innerHTML = res.svg;
   })
   .catch((error) => {
     console.log(error);
@@ -53,11 +53,11 @@ const data = fetch("http://127.0.0.1:8000/api/svg", {
   },
 })
   .then((response) => {
-    return response.text();
+    return response.json();
   })
   .then((res) => {
-    console.log(JSON.parse(res).svg);
-    document.body.innerHTML = JSON.parse(res).svg;
+    console.log(res.svg);
+    document.body.innerHTML = res.svg;
   })
   .catch((error) => {
     console.log(error);
