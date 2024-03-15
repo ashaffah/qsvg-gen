@@ -48,9 +48,9 @@ const data = fetch("http://127.0.0.1:8000/api/svg", {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  body: {
+  body: JSON.stringify({
     content: "Hello World",
-  },
+  }),
 })
   .then((response) => {
     return response.json();
