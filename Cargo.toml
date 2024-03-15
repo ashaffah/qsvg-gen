@@ -9,3 +9,4 @@ edition = "2021"
 qirust = "0.1.8"
 rocket = { version = "0.5", features = ["json"] }
 rocket_cors = "0.6.0"
+serde = { version = "1.0", features = ["derive"] }
