@@ -2,7 +2,14 @@ version: "3"
 
 services:
   rocket:
+    container_name: rocket-dev
+    hostname: rocket-dev
     build: .
     command: bash -c "cargo run"
     ports:
       - 8000:8000
+    restart: always
+  cloudflare:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${token}
+    restart: always
