@@ -11,11 +11,22 @@ use std::collections::HashMap;
 use rocket::http::Method;
 use rocket_cors::{ AllowedOrigins, CorsOptions };
 use rocket::serde::{ Deserialize, Serialize };
+use rocket::response::content::RawHtml;
 
 // Define a struct to represent the incoming JSON
 #[derive(Serialize, Deserialize)]
 struct SvgData {
     content: String,
+}
+
+#[get("/")]
+fn index() -> RawHtml<&'static str> {
+    let helo =
+        "<div style=\"text-align:center\">
+        <div style=\"font-size: 70px\">WELCOME</div>
+        <div style=\"font-size: 40px\">ASHRAF SERVICE</div>
+    </div>";
+    RawHtml(helo)
 }
 
 #[get("/svg?<data>")]
@@ -55,5 +66,9 @@ fn rocket() -> _ {
         .to_cors()
         .unwrap();
 
-    rocket::build().mount("/api", routes![get_svg, get_svg_post]).attach(cors)
+    rocket
+        ::build()
+        .mount("/", routes![index])
+        .mount("/api", routes![get_svg, get_svg_post])
+        .attach(cors)
 }
