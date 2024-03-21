@@ -30,6 +30,21 @@
       div.style.color = "red";
     } else {
       div.innerHTML = data.svg;
+      let btn = document.createElement("button");
+      btn.className =
+        "bg-clifford bg-blue-400 p-2 rounded-md m-2 hover:bg-blue-500 hover:text-white";
+      btn.innerHTML = "Download";
+
+      btn.onclick = async () => {
+        const blob = new Blob([data.svg], { type: "image/svg+xml" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "image.svg";
+        link.click();
+      };
+
+      div.appendChild(btn);
     }
   };
 })();
