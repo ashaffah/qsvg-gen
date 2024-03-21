@@ -6,12 +6,14 @@ extern crate rocket;
 
 use qirust::helper::generate_svg_string;
 // use rocket::{ data::ToByteUnit, Data };
-use rocket::serde::json::Json;
-use std::collections::HashMap;
-use rocket::http::Method;
+use std::{ collections::HashMap, path::{ Path, PathBuf } };
 use rocket_cors::{ AllowedOrigins, CorsOptions };
-use rocket::serde::{ Deserialize, Serialize };
-use rocket::response::content::RawHtml;
+use rocket::{
+    http::Method,
+    fs::NamedFile,
+    response::Redirect,
+    serde::{ Deserialize, Serialize, json::Json },
+};
 
 // Define a struct to represent the incoming JSON
 #[derive(Serialize, Deserialize)]
@@ -20,13 +22,19 @@ struct SvgData {
 }
 
 #[get("/")]
-fn index() -> RawHtml<&'static str> {
-    let helo =
-        "<div style=\"text-align:center\">
-        <div style=\"font-size: 70px\">WELCOME</div>
-        <div style=\"font-size: 40px\">ASHRAF SERVICE</div>
-    </div>";
-    RawHtml(helo)
+fn index() -> Redirect {
+    let redirect = Redirect::to(uri!("/home"));
+    redirect
+}
+
+#[get("/home")]
+async fn home() -> Option<NamedFile> {
+    NamedFile::open("src/template/html/index.html").await.ok()
+}
+
+#[get("/<file..>")]
+async fn files(file: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("src/template/").join(file)).await.ok()
 }
 
 #[get("/svg?<data>")]
@@ -68,7 +76,7 @@ fn rocket() -> _ {
 
     rocket
         ::build()
-        .mount("/", routes![index])
+        .mount("/", routes![index, home, files])
         .mount("/api", routes![get_svg, get_svg_post])
         .attach(cors)
 }
