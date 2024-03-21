@@ -9,7 +9,7 @@
     payload = e.target.value;
   };
   buttonGen.onclick = async () => {
-    const data = await fetch("http://127.0.0.1:8000/api/svg", {
+    const data = await fetch("https://qrsvg-gen.my.id/api/svg", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,6 +25,11 @@
       .catch((error) => {
         console.log(error);
       });
-    div.innerHTML = data.svg;
+    if (payload === "") {
+      div.innerHTML = "Data Kosong!";
+      div.style.color = "red";
+    } else {
+      div.innerHTML = data.svg;
+    }
   };
 })();
