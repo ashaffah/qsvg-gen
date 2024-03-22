@@ -30,6 +30,7 @@
       div.style.color = "red";
     } else {
       div.innerHTML = data.svg;
+      div.style.color = "black";
       let btn = document.createElement("button");
       btn.className =
         "bg-clifford bg-blue-400 p-2 rounded-md m-2 hover:bg-blue-500 hover:text-white";
