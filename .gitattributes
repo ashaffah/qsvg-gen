@@ -1,0 +1,8 @@
+*.cpp rust
+*.h rust
+*.rs rust diff=rust
+*.fixed linguist-language=Rust
+*.mir linguist-language=Rust
+*.css linguist-language=Rust
+*.html linguist-language=Rust
+*.js linguist-language=Rust

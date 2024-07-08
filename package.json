@@ -1,0 +1,27 @@
+{
+  "name": "qsvg-gen",
+  "version": "1.0.0",
+  "description": "qr svg generator",
+  "main": "main.rs",
+  "scripts": {
+    "start": "cargo run",
+    "styles": "npx tailwindcss -i ./src/template/css/input.css -o ./src/template/css/index.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashaffah/qsvg-gen.git"
+  },
+  "keywords": [
+    "qr-code"
+  ],
+  "author": "ashaffah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashaffah/qsvg-gen/issues"
+  },
+  "homepage": "https://github.com/ashaffah/qsvg-gen#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  }
+}

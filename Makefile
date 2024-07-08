@@ -6,3 +6,6 @@ compose	:
 
 build	:
 	@cargo build
+
+styles	:
+	@npm run styles
