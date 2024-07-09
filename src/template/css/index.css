@@ -640,3 +640,13 @@ video {
   width: 500px;
   height: 500px;
 }
+
+textarea:focus {
+  outline: none !important;
+  border-color: #719ECE;
+  box-shadow: 0 0 10px #719ECE;
+}
+
+textarea {
+  border-color: rgb(59 130 246 / 0.5);
+}
