@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::rocket;
     use rocket::http::ContentType;
     use rocket::http::Status;
-    use rocket::local::Client;
+    use rocket::local::blocking::Client;
     use rocket::serde::json::json;
     use qirust::helper::generate_svg_string;
 
